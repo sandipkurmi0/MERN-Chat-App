@@ -8,7 +8,7 @@ class UserModel {
       {
         name: {
           type: String,
-          required: [true, 'Please add a name']
+          required: true
         },
         email: {
           type: String,
@@ -19,16 +19,20 @@ class UserModel {
             'Please add a valid email'
           ]
         },
-        role: {
-          type: String,
-          enum: ['user', 'admin'],
-          default: 'user'
-        },
         password: {
           type: String,
           required: [true, 'Please add a Password'],
           // minlength: 6,
 
+        },
+        pic: {
+          type: String,
+          default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+        },
+        isAdmin: {
+          type: Boolean,
+          required: true,
+          default: false,
         },
       },
       {
