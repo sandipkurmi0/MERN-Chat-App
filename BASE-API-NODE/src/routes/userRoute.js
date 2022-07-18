@@ -10,7 +10,7 @@ export default (router) => {
 
     router.post(`/api/register`, UserController.registerUser)
     router.post(`/api/login`, UserController.login);
-    router.post(`/api/search`, auth, UserController.search);
+    router.get(`/api/search`, auth, UserController.search);
     router.post(`/api/change-password/:id`, auth, UserController.changePassword);
 
 };
