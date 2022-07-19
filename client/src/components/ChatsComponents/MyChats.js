@@ -1,10 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box } from '@chakra-ui/react'
 import SingleChats from './SingleChats'
+import { useGetAllUsersQuery } from '../../services/massages'
+import { ChatState } from '../../context/ChatProvider'
 
 const MyChats = () => {
-    return (
 
+    const [activeListID, setActiveListID] = useState('');
+
+    const { user } = ChatState();
+
+    const { data } = useGetAllUsersQuery()
+
+    var userList = [];
+
+    if (data !== undefined) {
+        userList = data.data
+    }
+
+
+    const result = userList.filter((userli) => {
+        return userli._id !== user.data._id
+    });
+
+    const handleClick = (activeID) => {
+        console.log(activeID);
+        setActiveListID(activeID);
+    }
+
+    return (
         <Box
             flexDir="column"
             alignItems="center"
@@ -29,13 +53,21 @@ const MyChats = () => {
                 p={3}
                 bg="#F8F8F8"
                 w="100%"
-                h="100%"
+                h="90%"
                 borderRadius="lg"
                 overflowY="hidden"
-
-            ><SingleChats />
+            >
+                {result.map((user) => {
+                    return <SingleChats
+                        handleClick={handleClick}
+                        user={user}
+                        key={user._id}
+                        activeListID={activeListID}
+                    />
+                })}
 
             </Box>
+
         </Box>
     )
 }

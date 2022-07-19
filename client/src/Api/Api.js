@@ -14,7 +14,7 @@ export const sendSms = async (data) => {
     }
 }
 
-export const getNumber = async () => {
+export const getUser = async () => {
     try {
         return await api.get(`/api/getNumber`)
     } catch (error) {

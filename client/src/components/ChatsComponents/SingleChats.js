@@ -1,13 +1,22 @@
 import React from 'react'
 import '../style.css'
-import { ChatState } from '../../context/ChatProvider'
 import { Avatar, } from '@chakra-ui/react'
+import { ChatState } from '../../context/ChatProvider'
 
-const SingleChats = () => {
-    const activeListID = 25
-    const { user } = ChatState();
+const SingleChats = ({ user, handleClick, activeListID }) => {
 
-    const userSelectHandler = () => { }
+    const { setCurrentUser } = ChatState();
+
+    //select curent user id
+    const userSelectHandler = () => {
+        console.log("hello")
+        const selectedUser = user
+        // console.log(selectedUser);
+        setCurrentUser(selectedUser)
+        handleClick(user._id);
+    }
+
+
     return (
         <div onClick={userSelectHandler} className={activeListID === 25 ? 'active' : ""}>
             <ul className="SidebarList">
@@ -17,12 +26,12 @@ const SingleChats = () => {
                             size="md"
                             margin="30px"
                             cursor="pointer"
-                            name={user.data.name}
-                            src={user.data.pic}
+                            name={user.name}
+                            src={user.pic}
                         />
                     </div>
                     <div className="userInfo">
-                        <span className="name">{user.data.name}</span>
+                        <span className="name">{user.name}</span>
                         <span>hello how are you</span>
                         <span>24 feb</span>
                     </div>

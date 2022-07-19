@@ -1,11 +1,26 @@
-import React from 'react'
-import { Box } from "@chakra-ui/layout";
+import React, { useEffect } from 'react'
+import { Box, Text } from "@chakra-ui/layout";
 import {
     FormControl,
     Input
 } from '@chakra-ui/react'
+import { ChatState } from '../../context/ChatProvider'
+
 
 const Chatbox = () => {
+
+    const { currentUser } = ChatState();
+    // console.log(`currentUser`, currentUser);
+    let user = "";
+
+    useEffect(() => {
+        if (currentUser !== undefined) {
+            user = currentUser
+        }
+    }, [user])
+
+    console.log(user)
+
     return (
         <Box
             // d={{ base: selectedChat ? "flex" : "none", md: "flex" }}
@@ -26,8 +41,7 @@ const Chatbox = () => {
                 w="100%"
                 justifyContent="space-between"
                 alignItems="center"
-                d
-            >sandip's Chats</Box>
+            >{user.name}'s Chats</Box>
             <Box
                 d="flex"
                 flexDir="column"
@@ -38,33 +52,33 @@ const Chatbox = () => {
                 borderRadius="lg"
                 overflowY="hidden"
             >all the single chats
-            </Box>
-            <Box
-                pb={3}
-                px={3}
-                fontSize={{ base: "28px", md: "30px" }}
-                fontFamily="Work sans"
-                style={{ display: "flex" }}
-                w="100%"
-                justifyContent="space-between"
-                alignItems="center"
-                d
-            >
-                <FormControl
-                    //   onKeyDown={sendMessage}
-                    id="first-name"
-                    isRequired
-                    mt={3}
+
+
+                <Box
+                    pb={3}
+                    px={3}
+                    fontSize={{ base: "28px", md: "30px" }}
+                    fontFamily="Work sans"
+                    style={{ display: "flex" }}
+                    w="100%"
+                    justifyContent="space-between"
+                    alignItems="center"
                 >
-                    <Input
-                        variant="filled"
-                        bg="#E0E0E0"
-                        placeholder="Enter a message.."
-                    // value={newMessage}
-                    // onChange={typingHandler}
-                    />
-                </FormControl>
+                    <FormControl
+                        //   onKeyDown={sendMessage}
+                        id="first-name"
+                        isRequired
+                        style={{ top: "640px" }}
+                    >
+                        <Input
+                            variant="filled"
+                            bg="#E0E0E0"
+                            placeholder="Enter a message.."
+                        />
+                    </FormControl>
+                </Box>
             </Box>
+
         </Box>
     )
 }

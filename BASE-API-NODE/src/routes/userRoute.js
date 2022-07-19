@@ -3,7 +3,7 @@ import auth from '../middleware/auth.middleware';
 
 export default (router) => {
     router.post(`/api/user`, UserController.addUser);
-    // router.get(`/api/user`, auth, UserController.getAll);
+    router.get(`/api/user`, UserController.getAll);
     // router.get(`/api/user/:id`, auth, UserController.get);
     // router.put(`/api/user/:id`, auth, UserController.update);
     // router.delete(`/api/user/:id`, auth, UserController.delete);

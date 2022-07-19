@@ -6,22 +6,23 @@ class MessageModel {
     initSchema() {
         const schema = new Schema(
             {
-                sender: {
+                from: {
                     type: mongoose.Schema.Types.ObjectId,
                     ref: 'users'
                 },
-                content: {
+                to: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'users',
+                },
+                message: {
                     type: String,
                     trim: true
                 },
-                chat: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'chats'
-                },
-                readBy: [{
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "users"
-                }],
+                type: {
+                    type: String,
+                    enum: ['send', 'received'],
+                    required: true,
+                }
             },
             {
                 timestamps: true,
