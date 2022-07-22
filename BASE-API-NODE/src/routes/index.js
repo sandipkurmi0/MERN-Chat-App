@@ -1,11 +1,12 @@
 import express from 'express';
 import userRoutes from './userRoute';
-import messageRoute from './messageRoute';
-
+import messageRoutes from './messageRoute';
+import chatRoutes from './chatRoute'
 
 const router = express.Router();
 
 userRoutes(router);
-messageRoute(router);
+messageRoutes(router);
+chatRoutes(router);
 
 export default router;

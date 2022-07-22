@@ -13,6 +13,13 @@ class UserController extends Controller {
     this.registerUser = this.registerUser.bind(this);
     this.changePassword = this.changePassword.bind(this);
     this.search = this.search.bind(this);
+    this.getUserByQuery = this.getUserByQuery.bind(this);
+
+  }
+
+  async getUserByQuery(req, res) {
+    const response = await this.service.getUserByQuery(req.query);
+    return res.status(response.statusCode).send(response);
   }
 
   async addUser(req, res) {
@@ -33,7 +40,6 @@ class UserController extends Controller {
 
 
   async login(req, res) {
-    console.log(req.body)
     const response = await this.service.login(req.body);
     return res.status(response.statusCode).send(response);
   }

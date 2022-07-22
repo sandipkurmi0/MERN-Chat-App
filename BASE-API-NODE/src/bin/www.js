@@ -38,8 +38,42 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
+// const { Server } = require('socket.io')
+// Run server to listen on port 3000.
+// const server = http.createServer(app);
 
+// const io = new Server(server, {
+//   cors: {
+//     origin: '*',
+//   }
+// });
+
+// io.on("connection", (socket) => {
+// console.log(`User Connected: ${socket.id}`);
+
+// socket.on('disconnect', () => {
+//   console.log('user disconnected');
+// });
+// })
+
+
+import { Server } from "socket.io";
 const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+  }
+});
+
+io.on("connection", (socket) => {
+  console.log(socket)
+  console.log(`User Connected : ${socket.id}`);
+});
+
+
+// console.log(io);
+//require('../socket')(io);
 
 /**
  * Event listener for HTTP server "error" event.
