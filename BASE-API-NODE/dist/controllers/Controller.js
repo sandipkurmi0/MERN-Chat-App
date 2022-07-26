@@ -20,39 +20,30 @@ var Controller = /*#__PURE__*/function () {
     _classCallCheck(this, Controller);
 
     this.service = service;
-    this.getAll = this.getAll.bind(this);
     this.insert = this.insert.bind(this);
+    this.getAll = this.getAll.bind(this);
+    this.get = this.get.bind(this);
     this.update = this.update.bind(this);
     this["delete"] = this["delete"].bind(this);
-    this.get = this.get.bind(this);
   }
 
   _createClass(Controller, [{
-    key: "getAll",
+    key: "insert",
     value: function () {
-      var _getAll = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
+      var _insert = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
         var response;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return this.service.getAll(req.query);
+                return this.service.insert(req.body);
 
               case 2:
                 response = _context.sent;
+                return _context.abrupt("return", res.status(201).send(response));
 
-                if (!response.error) {
-                  _context.next = 5;
-                  break;
-                }
-
-                return _context.abrupt("return", res.status(response.statusCode).send(response));
-
-              case 5:
-                return _context.abrupt("return", res.status(response.statusCode).send(response));
-
-              case 6:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -60,38 +51,29 @@ var Controller = /*#__PURE__*/function () {
         }, _callee, this);
       }));
 
-      function getAll(_x, _x2) {
-        return _getAll.apply(this, arguments);
+      function insert(_x, _x2) {
+        return _insert.apply(this, arguments);
       }
 
-      return getAll;
+      return insert;
     }()
   }, {
-    key: "insert",
+    key: "getAll",
     value: function () {
-      var _insert = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
+      var _getAll = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
         var response;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return this.service.insert(req.body);
+                return this.service.getAll(req.query);
 
               case 2:
                 response = _context2.sent;
-
-                if (!response.error) {
-                  _context2.next = 5;
-                  break;
-                }
-
                 return _context2.abrupt("return", res.status(response.statusCode).send(response));
 
-              case 5:
-                return _context2.abrupt("return", res.status(201).send(response));
-
-              case 6:
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -99,16 +81,16 @@ var Controller = /*#__PURE__*/function () {
         }, _callee2, this);
       }));
 
-      function insert(_x3, _x4) {
-        return _insert.apply(this, arguments);
+      function getAll(_x3, _x4) {
+        return _getAll.apply(this, arguments);
       }
 
-      return insert;
+      return getAll;
     }()
   }, {
-    key: "update",
+    key: "get",
     value: function () {
-      var _update = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
+      var _get = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
         var id, response;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
@@ -116,7 +98,7 @@ var Controller = /*#__PURE__*/function () {
               case 0:
                 id = req.params.id;
                 _context3.next = 3;
-                return this.service.update(id, req.body);
+                return this.service.get(id);
 
               case 3:
                 response = _context3.sent;
@@ -130,16 +112,16 @@ var Controller = /*#__PURE__*/function () {
         }, _callee3, this);
       }));
 
-      function update(_x5, _x6) {
-        return _update.apply(this, arguments);
+      function get(_x5, _x6) {
+        return _get.apply(this, arguments);
       }
 
-      return update;
+      return get;
     }()
   }, {
-    key: "delete",
+    key: "update",
     value: function () {
-      var _delete2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+      var _update = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
         var id, response;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
@@ -147,7 +129,7 @@ var Controller = /*#__PURE__*/function () {
               case 0:
                 id = req.params.id;
                 _context4.next = 3;
-                return this.service["delete"](id);
+                return this.service.update(id, req.body);
 
               case 3:
                 response = _context4.sent;
@@ -161,16 +143,16 @@ var Controller = /*#__PURE__*/function () {
         }, _callee4, this);
       }));
 
-      function _delete(_x7, _x8) {
-        return _delete2.apply(this, arguments);
+      function update(_x7, _x8) {
+        return _update.apply(this, arguments);
       }
 
-      return _delete;
+      return update;
     }()
   }, {
-    key: "get",
+    key: "delete",
     value: function () {
-      var _get = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+      var _delete2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
         var id, response;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
@@ -178,7 +160,7 @@ var Controller = /*#__PURE__*/function () {
               case 0:
                 id = req.params.id;
                 _context5.next = 3;
-                return this.service.get(id);
+                return this.service["delete"](id);
 
               case 3:
                 response = _context5.sent;
@@ -192,11 +174,11 @@ var Controller = /*#__PURE__*/function () {
         }, _callee5, this);
       }));
 
-      function get(_x9, _x10) {
-        return _get.apply(this, arguments);
+      function _delete(_x9, _x10) {
+        return _delete2.apply(this, arguments);
       }
 
-      return get;
+      return _delete;
     }()
   }]);
 

@@ -23,7 +23,6 @@ const ChatProvider = ({ children }) => {
 
     }, [history]);
 
-    // console.log(user);
     return (
         <ChatContext.Provider value={{ user, setUser, currentUser, setCurrentUser }}>
             {children}

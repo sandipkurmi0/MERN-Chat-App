@@ -9,7 +9,6 @@ import { useHistory } from "react-router";
 
 const SignUp = () => {
 
-
     const toast = useToast()
     const history = useHistory();
     const [show, setShow] = useState(false)
@@ -74,6 +73,7 @@ const SignUp = () => {
             localStorage.setItem("userInfo", JSON.stringify(data));
             setPicLoading(false);
             history.push("/chats");
+            window.location.reload(false);
         } catch (error) {
             toast({
                 title: "Error Occured!",

@@ -3,7 +3,6 @@ import moment from 'moment';
 
 
 const message = ({ message, own }) => {
-
     return (
         <div className={own ? "message own" : "message"}>
             <div className="messageTop">

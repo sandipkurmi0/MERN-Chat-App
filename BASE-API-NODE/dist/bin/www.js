@@ -9,6 +9,8 @@ var _http = _interopRequireDefault(require("http"));
 
 var _app = _interopRequireDefault(require("../app"));
 
+var _socket = require("socket.io");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /**
@@ -44,13 +46,38 @@ _app["default"].set('port', port);
 /**
  * Create HTTP server.
  */
+// const { Server } = require('socket.io')
+// Run server to listen on port 3000.
+// const server = http.createServer(app);
+// const io = new Server(server, {
+//   cors: {
+//     origin: '*',
+//   }
+// });
+// io.on("connection", (socket) => {
+// console.log(`User Connected: ${socket.id}`);
+// socket.on('disconnect', () => {
+//   console.log('user disconnected');
+// });
+// })
 
 
 var server = _http["default"].createServer(_app["default"]);
+
+var io = new _socket.Server(server, {
+  cors: {
+    origin: 'http://localhost:3000'
+  }
+});
+io.on("connection", function (socket) {
+  console.log(socket);
+  console.log("User Connected : ".concat(socket.id));
+}); // console.log(io);
+//require('../socket')(io);
+
 /**
  * Event listener for HTTP server "error" event.
  */
-
 
 var onError = function onError(error) {
   if (error.syscall !== 'listen') {

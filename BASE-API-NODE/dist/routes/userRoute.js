@@ -12,11 +12,12 @@ var _auth = _interopRequireDefault(require("../middleware/auth.middleware"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _default = function _default(router) {
-  router.get("/api/users", _UserController["default"].getAll);
-  router.post("/api/user", _UserController["default"].insert);
-  router.get("/api/user/:id", _UserController["default"].get);
-  router.put("/api/user/:id", _UserController["default"].update);
-  router["delete"]("/api/user/:id", _UserController["default"]["delete"]);
+  router.post("/api/user", _UserController["default"].addUser);
+  router.get("/api/user", _UserController["default"].getAll);
+  router.post("/api/register", _UserController["default"].registerUser);
+  router.post("/api/login", _UserController["default"].login);
+  router.get("/api/getUserByQuery", _UserController["default"].getUserByQuery);
+  router.get("/api/search", _auth["default"], _UserController["default"].search);
 };
 
 exports["default"] = _default;

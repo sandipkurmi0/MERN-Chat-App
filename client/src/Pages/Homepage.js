@@ -36,7 +36,6 @@ const Homepage = () => {
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
-
             </Box>
         </Container>
     )

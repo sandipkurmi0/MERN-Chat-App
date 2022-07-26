@@ -23,48 +23,42 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var PostModel = /*#__PURE__*/function () {
-  function PostModel() {
-    _classCallCheck(this, PostModel);
+var ChatsModel = /*#__PURE__*/function () {
+  function ChatsModel() {
+    _classCallCheck(this, ChatsModel);
   }
 
-  _createClass(PostModel, [{
+  _createClass(ChatsModel, [{
     key: "initSchema",
     // eslint-disable-next-line class-methods-use-this
     value: function initSchema() {
       var schema = new _mongoose.Schema({
-        title: {
-          type: String,
-          "default": null
-        },
-        category: {
-          type: String,
-          required: true,
-          unique: true
+        members: {
+          type: Array
         }
       }, {
         timestamps: true
       });
       schema.plugin(_mongooseUniqueValidator["default"]);
 
-      _mongoose["default"].model('posts', schema);
+      _mongoose["default"].model('chats', schema);
     }
   }, {
     key: "getInstance",
     value: function getInstance() {
       this.initSchema();
-      return _mongoose["default"].model('posts');
+      return _mongoose["default"].model('chats');
     } // eslint-disable-next-line class-methods-use-this
 
   }, {
     key: "getModel",
     value: function getModel() {
-      return _mongoose["default"].model('posts');
+      return _mongoose["default"].model('chats');
     }
   }]);
 
-  return PostModel;
+  return ChatsModel;
 }();
 
-var _default = PostModel;
+var _default = ChatsModel;
 exports["default"] = _default;

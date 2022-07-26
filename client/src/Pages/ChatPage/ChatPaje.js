@@ -7,7 +7,7 @@ import { ChatState } from '../../context/ChatProvider'
 import axios from 'axios'
 import { useToast } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import { io } from 'socket.io-client'
 
 const ChatPaje = () => {
 
@@ -17,21 +17,42 @@ const ChatPaje = () => {
     const [currentChat, setCurrentChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
-    const [activeCurrentChat, setActiveCurrentChat] = useState('');
-    // const [arivalMessage, setArivalMessage] = useState(null);
+    const socket = useRef()
+    const [arivalMessage, setArivalMessage] = useState(null);
     const scrollRef = useRef()
 
-    const currentChatHandler = (e, conv) => {
-        e.preventDefault()
-        setCurrentChat(conv)
-        setActiveCurrentChat(conv)
 
-    }
+
+    useEffect(() => {
+        socket.current = io("http://localhost:3001", { transports: ['websocket', 'polling', 'flashsocket'] })
+        socket.current.on("getMessage", (data) => {
+            setArivalMessage({
+                sender_id: data.sender_id,
+                message: data.message,
+                createdAt: Date.now()
+            })
+
+        })
+    }, [])
+
+
+    useEffect(() => {
+        arivalMessage && currentChat?.members.includes(arivalMessage.sender_id) &&
+            setMessages((prev) => [...prev, arivalMessage])
+    }, [arivalMessage, currentChat])
+
+
+    useEffect(() => {
+        socket.current.emit("addUser", user?.data._id)
+        socket.current.on('getUsers', (users) => {
+        })
+    }, [user])
 
     useEffect(() => {
         const getConversations = async () => {
             try {
                 const res = await axios.get("/api/chat/" + user?.data._id)
+                console.log(res.data.data);
                 setConversations(res.data.data)
             } catch (error) {
                 console.log(error);
@@ -55,20 +76,29 @@ const ChatPaje = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const message = {
-            sender_id: user.id,
+            sender_id: user.data._id,
             message: newMessage,
             chatId: currentChat._id
         }
 
+        const receiverId = currentChat.members?.find((member) => {
+            return member !== user?.data._id
+        })
+
+        socket.current.emit('sendMessage', {
+            sender_id: user?.data._id,
+            receiverId,
+            message: newMessage
+        })
+
         try {
             const res = await axios.post("/api/message", message)
-            console.log(res)
             setMessages([...messages, res.data.data])
             setNewMessage("")
             toast({
                 title: "Message has been successfully sent",
                 status: 'success',
-                duration: 1000,
+                duration: 2000,
                 isClosable: true,
                 position: "bottom",
             });
@@ -76,6 +106,8 @@ const ChatPaje = () => {
             console.log(error);
         }
     }
+
+
 
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -90,9 +122,8 @@ const ChatPaje = () => {
                         <input placeholder="Search for friends" className="chatMenuInput" />
                         {conversations.map((conv, index) => (
 
-                            <div onClick={(e) => currentChatHandler(e, conv)} className={conv?._id === currentChat?._id ? 'active' : ""}>
-                                {console.log(conv)}
-                                <Conversation conversation={conv} currentUser={user} key={index} />
+                            <div onClick={() => (setCurrentChat(conv))} className={conv?._id === currentChat?._id ? 'active' : ""} key={index} >
+                                <Conversation conversation={conv} currentUser={user} arivalMessage={arivalMessage} />
                             </div>
                         ))}
 
@@ -104,8 +135,8 @@ const ChatPaje = () => {
                             <>
                                 <div className="chatBoxTop">
                                     {messages.map((msg, index) => (
-                                        <div ref={scrollRef}>
-                                            <Message message={msg} own={msg.sender === user._id} key={index} />
+                                        <div ref={scrollRef} key={index}>
+                                            <Message message={msg} own={msg.sender_id === user?.data._id} />
                                         </div>
                                     ))}
                                 </div>
@@ -123,13 +154,9 @@ const ChatPaje = () => {
                                 </Text>
                             </span>
                         )}
-
                     </div>
-
                 </div>
             </div>
-
-
         </>
     )
 }

@@ -56,24 +56,16 @@ app.set('port', port);
 // });
 // })
 
-
 import { Server } from "socket.io";
 const server = http.createServer(app);
 
-const io = new Server(server, {
+global.io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: '*',
   }
 });
 
-io.on("connection", (socket) => {
-  console.log(socket)
-  console.log(`User Connected : ${socket.id}`);
-});
-
-
-// console.log(io);
-//require('../socket')(io);
+require('../socket')(io);
 
 /**
  * Event listener for HTTP server "error" event.

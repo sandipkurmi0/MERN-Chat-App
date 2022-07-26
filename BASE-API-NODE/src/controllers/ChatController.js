@@ -1,5 +1,6 @@
 import Controller from './Controller';
 import Chat from '../models/ChatModel';
+// import ChatUesr from '../models/ChatUserModel'
 import ChatService from '../services/ChatService';
 const chatService = new ChatService(new Chat().getInstance());
 

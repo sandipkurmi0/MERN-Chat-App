@@ -10,7 +10,7 @@ class ChatService extends Service {
     async newChat(item) {
         try {
             var data = await this.model.create({
-                members: [item.senderId, item.reciverId]
+                members: [item.senderId, item.reciverId],
             })
 
             return {

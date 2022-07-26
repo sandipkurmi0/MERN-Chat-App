@@ -23,58 +23,48 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var UserModel = /*#__PURE__*/function () {
-  function UserModel() {
-    _classCallCheck(this, UserModel);
+var MessageModel = /*#__PURE__*/function () {
+  function MessageModel() {
+    _classCallCheck(this, MessageModel);
   }
 
-  _createClass(UserModel, [{
+  _createClass(MessageModel, [{
     key: "initSchema",
     // eslint-disable-next-line class-methods-use-this
     value: function initSchema() {
       var schema = new _mongoose.Schema({
-        name: {
-          type: String,
-          required: true
+        chatId: {
+          type: String
         },
-        email: {
-          type: String,
-          required: [true, 'Please add a email address'],
-          unique: true,
-          match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please add a valid email']
+        sender_id: {
+          type: String
         },
-        password: {
-          type: String,
-          required: [true, 'Please add a Password'] // minlength: 6,
-
-        },
-        pic: {
-          type: String,
-          "default": "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+        message: {
+          type: String
         }
       }, {
         timestamps: true
       });
       schema.plugin(_mongooseUniqueValidator["default"]);
 
-      _mongoose["default"].model('users', schema);
+      _mongoose["default"].model('messages', schema);
     }
   }, {
     key: "getInstance",
     value: function getInstance() {
       this.initSchema();
-      return _mongoose["default"].model('users');
+      return _mongoose["default"].model('messages');
     } // eslint-disable-next-line class-methods-use-this
 
   }, {
     key: "getModel",
     value: function getModel() {
-      return _mongoose["default"].model('users');
+      return _mongoose["default"].model('messages');
     }
   }]);
 
-  return UserModel;
+  return MessageModel;
 }();
 
-var _default = UserModel;
+var _default = MessageModel;
 exports["default"] = _default;

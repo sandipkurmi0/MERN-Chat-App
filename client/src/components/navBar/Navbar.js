@@ -21,9 +21,11 @@ const Navbar = () => {
     const toast = useToast()
     const { user } = ChatState();
     const history = useHistory();
-    const logoutHandler = () => {
+
+    const LogoutHandler = () => {
         localStorage.removeItem("userInfo");
         history.push("/");
+        window.location.reload(false);
         toast({
             title: "Logout successfully",
             status: 'success',
@@ -70,7 +72,7 @@ const Navbar = () => {
                         </MenuButton>
                     </Menu>
                     <Menu >
-                        <Button m={4} colorScheme='teal' variant='ghost' onClick={logoutHandler}>
+                        <Button m={4} colorScheme='teal' variant='ghost' onClick={LogoutHandler}>
                             Logout
                         </Button>
                     </Menu>

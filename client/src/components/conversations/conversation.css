@@ -6,6 +6,15 @@
   margin: 20px;
 }
 
+.userInfo {
+  flex-direction: column;
+}
+
+.conversationTime {
+  padding-left: 200px;
+  font-size: 14px;
+}
+
 .conversation:hover {
   background-color: #29928b;
 }

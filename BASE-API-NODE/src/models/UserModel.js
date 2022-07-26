@@ -33,6 +33,10 @@ class UserModel {
       {
         timestamps: true,
       },
+      {
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
+      }
     );
     schema.plugin(uniqueValidator);
     mongoose.model('users', schema);
@@ -48,5 +52,6 @@ class UserModel {
     return mongoose.model('users');
   }
 }
+
 
 export default UserModel;
