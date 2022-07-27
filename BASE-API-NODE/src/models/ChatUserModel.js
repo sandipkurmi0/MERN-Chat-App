@@ -6,13 +6,17 @@ class ChatUsersModel {
     initSchema() {
         const schema = new Schema(
             {
-                userId: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "users"
+                chatName: {
+                    type: String,
+                    trim: true
                 },
-                chatId: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "chats"
+                users: [{
+                    type: Schema.Types.ObjectId,
+                    ref: "users"
+                }],
+                latestMessage: {
+                    type: Schema.Types.ObjectId,
+                    ref: "messages",
                 },
             },
             {

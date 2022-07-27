@@ -7,29 +7,7 @@ class UserService extends Service {
     super(model);
     this.login = this.login.bind(this);
     this.registerUser = this.registerUser.bind(this);
-    this.changePassword = this.changePassword.bind(this);
     this.search = this.search.bind(this);
-    this.getUserByQuery = this.getUserByQuery.bind(this);
-  }
-
-  async getUserByQuery(quary) {
-    const userId = quary.userId
-    try {
-      const user = await this.model.findById(userId)
-
-      return {
-        error: false,
-        statusCode: 200,
-        data: user,
-      }
-
-    } catch (error) {
-      return {
-        error: error.message,
-        statusCode: 400,
-        data: null
-      }
-    }
   }
 
   async search(item, user) {
@@ -41,7 +19,7 @@ class UserService extends Service {
         ],
       } : {};
 
-      const users = await this.model.find(keyword).find({ $ne: user })
+      const users = await this.model.find(keyword).find({ _id: { $ne: user } })
 
       return {
         error: false,
@@ -138,45 +116,6 @@ class UserService extends Service {
         return {
           error: 'You entered the wrong email or password',
           statusCode: 401,
-          data: null
-        };
-      }
-    } catch (error) {
-      return {
-        error: error.message,
-        statusCode: 400,
-        data: null,
-      };
-    }
-  }
-
-
-  //change password with current password
-  async changePassword(item, id) {
-    try {
-      let user = await this.model.findOne({ "_id": id })
-      if (user) {
-        let results = await bcrypt.compareSync(item.currentPassword, user.password);
-        if (results) {
-          let hash = await bcrypt.hashSync(item.password, 10);
-          let update = await this.model.findByIdAndUpdate(user._id, { password: hash })
-          return {
-            error: false,
-            message: 'password changed successfully',
-            statusCode: 200,
-            data: update
-          };
-        } else {
-          return {
-            error: 'You entered wrong currant password',
-            statusCode: 400,
-            data: null
-          };
-        }
-      } else {
-        return {
-          error: 'You entered wrong currant password',
-          statusCode: 400,
           data: null
         };
       }

@@ -30,10 +30,6 @@ const SocketChat = (io) => {
 
         //send and get messages
         socket.on("sendMessage", ({ sender_id, receiverId, message }) => {
-            // console.log(sender_id)
-            // console.log(receiverId)
-            // console.log(message)
-
             const user = getUser(receiverId);
             console.log('user', user)
             io.to(user?.socketId).emit("getMessage", {

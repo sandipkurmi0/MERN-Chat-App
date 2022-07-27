@@ -6,15 +6,22 @@ class MessageModel {
     initSchema() {
         const schema = new Schema(
             {
-                chatId: {
-                    type: String,
+                sender: {
+                    type: Schema.Types.ObjectId,
+                    ref: 'users',
                 },
-                sender_id: {
+                content: {
                     type: String,
+                    trim: true
                 },
-                message: {
-                    type: String,
+                chat: {
+                    type: Schema.Types.ObjectId,
+                    ref: "chatusers"
                 },
+                readBy: [{
+                    type: Schema.Types.ObjectId,
+                    ref: "users"
+                }],
             },
             {
                 timestamps: true,

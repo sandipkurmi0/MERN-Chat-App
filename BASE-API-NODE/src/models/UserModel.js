@@ -22,8 +22,6 @@ class UserModel {
         password: {
           type: String,
           required: [true, 'Please add a Password'],
-          // minlength: 6,
-
         },
         pic: {
           type: String,

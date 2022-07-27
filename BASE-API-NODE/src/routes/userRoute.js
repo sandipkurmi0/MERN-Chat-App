@@ -6,7 +6,6 @@ export default (router) => {
     router.get(`/api/user`, UserController.getAll);
     router.post(`/api/register`, UserController.registerUser)
     router.post(`/api/login`, UserController.login);
-    router.get(`/api/getUserByQuery`, UserController.getUserByQuery)
     router.get(`/api/search`, auth, UserController.search);
 
 };
