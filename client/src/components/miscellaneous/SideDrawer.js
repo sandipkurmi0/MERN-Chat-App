@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Box, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
@@ -39,7 +39,7 @@ const SideDrawer = () => {
     const [loading, setLoading] = useState(false);
     const [loadingChat, setLoadingChat] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const { user, SetSelectedChat, chats, setChats } = ChatState();
+    const { user, setSelectedChat, chats, setChats } = ChatState();
 
 
     const toast = useToast()
@@ -111,9 +111,10 @@ const SideDrawer = () => {
 
             if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats])
 
-            SetSelectedChat(data)
+            setSelectedChat(data.data)
             setLoadingChat(false)
             onClose();
+            window.location.reload(false);
 
         } catch (error) {
             toast({
@@ -153,7 +154,6 @@ const SideDrawer = () => {
                         <MenuButton p={1}>
                             <BellIcon fontSize="3xl" m={4} />
                         </MenuButton>
-                        {/* {<MenuList></MenuList>} */}
                     </Menu>
                     <Menu>
                         <MenuButton pb={5}>

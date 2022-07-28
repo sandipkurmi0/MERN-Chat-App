@@ -16,7 +16,7 @@ class MessageModel {
                 },
                 chat: {
                     type: Schema.Types.ObjectId,
-                    ref: "chatusers"
+                    ref: "chatUsers"
                 },
                 readBy: [{
                     type: Schema.Types.ObjectId,

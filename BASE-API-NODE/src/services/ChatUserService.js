@@ -1,8 +1,9 @@
 import Service from './Service';
 import User from '../models/UserModel';
+import Message from '../models/MessageModel';
 
 var userModel = new User().getModel();  //create instace 
-
+var messageModel = new Message().getModel();  //create instace
 
 class ChatUserService extends Service {
     constructor(model) {
@@ -17,28 +18,24 @@ class ChatUserService extends Service {
         // var userModel = new User().getModel();  //create instace 
         // const newuser = await userModel.findById(userId)  //now we can perform any opreation on it
 
-
         if (!userId) {
-            console.log('userId params not sent with request');
-            return res.sendStatus(400);
+            return {
+                error: 'userId params not sent with request',
+                statusCode: 400,
+                data: null
+            }
         }
 
         var isChat = await this.model.find({
             $and: [
                 { users: { $elemMatch: { $eq: req.user.id } } },
                 { users: { $elemMatch: { $eq: userId } } },
-
             ],
-        }).populate('users', "-password")
-            .populate('latestMessage')
-
-        isChat = await userModel.populate(isChat, {
-            path: 'latestMessage.sender',
-            select: 'name pic email'
         })
 
         if (isChat.length > 0) {
-            const data = isChat[0];
+            var isChat = await messageModel.find().populate("sender").populate("chat").sort([['createdAt', -1]]);
+            const data = isChat;
             return {
                 error: false,
                 statusCode: 200,
@@ -46,10 +43,10 @@ class ChatUserService extends Service {
             }
 
         } else {
-            console.log('sdsdsdsdsd else');
             var chatData = {
                 chatName: 'sender',
-                users: [req.user.id, userId]
+                users: [req.user.id, userId],
+
             }
 
             try {
@@ -76,22 +73,23 @@ class ChatUserService extends Service {
     }
 
     async fetchChats(req, res) {
-        console.log(req.user.id)
         try {
             let results = await this.model.find({ users: { $elemMatch: { $eq: req.user.id } } })
                 .populate('users', "-password")
                 .populate('latestMessage')
                 .sort({ updatedAt: -1 })
 
-            results = await userModel.populate(results, {
-                path: 'latestMessage.sender',
-                select: 'name pic email'
-            });
+            var isChat = await messageModel.find().populate("sender").populate("chat").sort([['createdAt', -1]]);
+
+            console.log('first', isChat)
+
+
 
             return {
                 error: false,
                 statusCode: 200,
                 data: results,
+
             }
 
         } catch (error) {

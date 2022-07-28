@@ -8,18 +8,17 @@ class MessageController extends Controller {
     constructor(service) {
         super(service);
         this.sendMessage = this.sendMessage.bind(this);
-        this.getChatMessages = this.getChatMessages.bind(this);
+        this.allMessages = this.allMessages.bind(this);
 
     }
 
     async sendMessage(req, res) {
-        let response = await this.service.sendMessage(req.body);
+        let response = await this.service.sendMessage(req, res);
         return res.status(response.statusCode).send(response);
     }
 
-    async getChatMessages(req, res) {
-        const id = req.params
-        let response = await this.service.getChatMessages(id);
+    async allMessages(req, res) {
+        let response = await this.service.allMessages(req, res);
         return res.status(response.statusCode).send(response);
     }
 }
